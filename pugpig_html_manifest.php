@@ -3,7 +3,6 @@
  * @file
  * Pugpig WordPress HTML Manifests
  */
-?><?php
 /*
 
 Licence:
@@ -12,7 +11,9 @@ Licence:
 This module is released under the GNU General Public License.
 See COPYRIGHT.txt and LICENSE.txt
 
- */?><?php
+ */
+
+require_once('shortlist-manifest-generator.php');
 
 /************************************************************************
 Get WordPress attachment manifests
@@ -154,7 +155,7 @@ Generate a fragment of an HTML5 manifest file for a custom field attachment
 function pugpig_get_custom_field_manifest_item($post, $field)
 {
   $attach_ids = get_post_meta( $post->ID, $field);
-
+  print_r($attach_ids);die;
   $ret = "";
   foreach ($attach_ids as $attach_id) {
   // We have a custom image
@@ -170,6 +171,11 @@ Generate a fragment of an HTML5 manifest file for a single WordPress post
 *************************************************************************/
 function pugpig_build_post_manifest_contents($post)
 {
+
+  $mb = new Shortlist_Manifest_Builder($post);
+  return $mb->build_manifest();
+
+  /*
   $output = "CACHE MANIFEST\n";
 
   $output .= "# Post: " . trim(preg_replace('/\s+/', ' ', $post->post_title)) . "\n";
@@ -222,6 +228,7 @@ function pugpig_build_post_manifest_contents($post)
   $output .="\nNETWORK:\n*\n";
 
   return $output;
+  */
 }
 
 add_filter('pugpig_theme_manifest_items', '_pugpig_ignore_theme_manifest_items',10,2);
@@ -248,14 +255,14 @@ function _pugpig_ignore_theme_manifest_regex(){
 
   if (!empty($files_string)){
     $files = explode("\n", $files_string);
-  
+
     $regex = '!^\/wp-content\/themes\/[^/]*\/(?:';
-  
+
     $x = 0;
     foreach($files as $file){
       $or = '|';
       if ($x == 0) $or = ''; $x++;
-  
+
       if (substr($file, -2, 1) == DIRECTORY_SEPARATOR){
         $file = substr($file, 0, -1) . "*\n";
       }
@@ -263,7 +270,7 @@ function _pugpig_ignore_theme_manifest_regex(){
       $file = preg_replace('!"!', '', $file);
       $file = preg_replace("!'!", '', $file);
       $file = preg_replace('@!@', '', $file);
-  
+
       $file = preg_replace('!\.!', '\.', $file);
       $file = preg_replace('!\\' . DIRECTORY_SEPARATOR . '!', '\\' . DIRECTORY_SEPARATOR, $file);
       $file = preg_replace('!\*!', '.*', $file);

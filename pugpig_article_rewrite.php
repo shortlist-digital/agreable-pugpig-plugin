@@ -93,7 +93,7 @@ We want everything up to the third slash
 ************************************************************************/
 function pugpig_get_root()
 {
-  $url = get_site_option('home');
+  $url = get_bloginfo('url');
 
   while (substr_count($url, '/') > 2) { // all we need is the :// from the protocol
     $array = explode('/', $url);
@@ -171,6 +171,8 @@ from another domain. We need to:
 // Extract all image paths from the block
 function pugpig_get_image_urls($markup)
 {
+
+
    $assets = array();
    if (preg_match_all('#<img.*?src=([\'"])(.*?)\1#i', $markup, $matches)) {
 
