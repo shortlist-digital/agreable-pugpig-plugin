@@ -157,7 +157,7 @@ function pugpig_get_opds_container($edition_ids, $internal = false, $atom_mode =
         _pugpig_create_xml_link($d, $feed, $link);
       }
     }
-    
+
   if (!empty($extras['auth_endpoints'])) {
     $authorisation = $d->createElement('pp:authorisation','');
     $feed->appendChild($authorisation);
@@ -221,7 +221,7 @@ function pugpig_get_edition_update_date($edition, $atom_mode)
     if (array_key_exists('is_pdf', $edition) && ($edition['is_pdf'])) {
       return $edition['pdf_modified'];
     } else {
-      return $edition['packaged'];  
+      return $edition['packaged'];
     }
   }
 }
@@ -353,7 +353,7 @@ function pugpig_get_opds_entry($d, $edition, $internal = false, $atom_mode = fal
         'type'  => array_key_exists('url_type', $edition) ? $edition['url_type'] : 'application/atom+xml',
         );
     }
-      
+
     if (empty($edition['price']) || $edition['price'] == 'FREE') {
       // Free edition
       $comment = "Free edition";
@@ -367,7 +367,7 @@ function pugpig_get_opds_entry($d, $edition, $internal = false, $atom_mode = fal
       $comment = "Paid for edition";
       $edition_link_info['rel'] = 'http://opds-spec.org/acquisition/buy';
     }
-  
+
     _pugpig_create_xml_link($d, $entry, $edition_link_info, $comment);
     $edition_alt_link_info = $edition_link_info;
     $edition_alt_link_info['rel'] = 'alternate';
@@ -502,7 +502,7 @@ function pugpig_get_atom_container($edition_id, $include_hidden = false,
 function _pugpig_create_atom_category(&$d, &$entry, $scheme, $values)
 {
   $values = (is_array($values) && !isset($values['term'])) ? $values : array($values);
-  
+
   foreach ($values as $val) {
     $category = $d->createElement('category');
     $category->setAttribute('scheme', "http://schema.pugpig.com/$scheme");
@@ -863,7 +863,7 @@ function pugpig_theme_manifest_string($theme_path, $theme_dir, $theme_name = '',
   // array_push($cache, "# From Dir: " . $theme_dir . "\n");
 
 
-  $files = _pugpig_directory_get_files($theme_dir);
+  $files = _pugpig_directory_get_files($theme_dir."public");
 
   if (!$files) {
     $cache[] = "# ERROR: Failed to read $theme_dir";
