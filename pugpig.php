@@ -4,11 +4,11 @@
 Info for WordPress:
 ==============================================================================
 
-Plugin Name: Pugpig for WordPress - Core
+Plugin Name: Pugpig for WordPress - Shortlist Edition
 Plugin URI: http://dev.pugpig.com
 Description: Allow your WordPress blog to produce beautiful Pugpig publications
 Version: 2.3.4
-Author: Kaldor Limited
+Author: Kaldor Limited & Jon Sherrard
 Author URI: http://kaldorgroup.com/
 
 Licence:

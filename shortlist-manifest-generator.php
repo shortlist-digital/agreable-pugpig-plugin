@@ -6,7 +6,7 @@ class Shortlist_Manifest_Builder {
     $this->base_url = get_bloginfo('url');
     $this->permalink = get_permalink($post_object);
     $cachebust = time();
-    $this->raw_html = file_get_contents($this->permalink."?t=$cachebust");
+    $this->raw_html = file_get_contents($this->permalink);
   }
 
   public function build_manifest() {
