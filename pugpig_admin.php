@@ -19,7 +19,7 @@ define( 'PUGPIG_EDITION_CONTENTS_ARRAY', 'pugpig_edition_contents_array');
 define( 'PUGPIG_POST_META_ACCESS_KEY', 'pugpig_post_access');
 // define( 'PUGPIG_POST_EDITION_LINK', 'pugpig_post_edition_link');
 //define( 'BASE_URL',  WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"",plugin_basename(__FILE__)));
-define( 'BASE_URL', pugpig_strip_domain(plugins_url('pugpig/'))); // Carlos - BASE_URL definition above doesn't return soft link directories
+define( 'BASE_URL', pugpig_strip_domain(plugin_dir_url(__FILE__))); // Carlos - BASE_URL definition above doesn't return soft link directories
 
 class PugpigEditionColumns
 {
@@ -91,8 +91,8 @@ function pugpig_get_editions($status='all', $num_posts = -1)
   }
 
   if ($wp_status) {
-    $args = array( 
-      'post_type' => PUGPIG_EDITION_POST_TYPE, 
+    $args = array(
+      'post_type' => PUGPIG_EDITION_POST_TYPE,
       'post_status' => $wp_status,
       'numberposts' => $num_posts);
 
@@ -829,10 +829,10 @@ function pugpig_auto_curate_editions($post_id)
         )
       )
     );
-  
+
     $query = new WP_Query($args);
     $editions = $query->posts;
-  
+
     foreach($editions as $edition){
       pugpig_add_edition_array($edition->ID, $post_id);
     }
@@ -941,24 +941,24 @@ function pugpig_flatplan_info()
   if (!$autocurate){
 
     echo "<div id='pugpig_included'>";
-  
+
     echo "<p>Drag posts between the boxes below to add, remove, or rearrange them:</p>";
-  
+
     echo "<div style='float:left;'>";
-  
+
     echo "<p style='text-align:center;' id = 'pugpig_same_terms_posts'>Posts in this edition:<br /></p>";
-  
+
     echo "<ul id='edition_included'>";
     foreach ($ecr as $post_id) {
       $p = get_post($post_id);
       //$thumb = "/wordpress/kaldor/raster.php?url=" . get_permalink($edition_id);
       //echo "<li id='x_$edition->ID'><img class='thumb' title='$edition->post_title' src='$thumb'  /></li>";
       if (is_object($p)) {
-  
+
         // Don't show children of certain types
         if ($p->post_parent != 0
             && in_array($p->post_type, pugpig_get_hierarchical_types())) continue;
-  
+
         echo "<li id='$p->ID'>" . pugpig_get_flatplan_description($p);
         if ($p->post_status == 'trash' || $p->post_status == 'draft' || $p->post_status == 'pending') {
           echo "\n<span style='color:orange'>(". $p->post_status .")</span>";
@@ -970,32 +970,32 @@ function pugpig_flatplan_info()
             'orderby' => 'menu_order',
             'post_parent' => $post_id
         );
-  
+
         $children = get_children($child_args);
-  
+
         foreach ($children as $child) echo "&nbsp; --> " . $child->post_title . "<br />";
-  
+
         echo "</li>";
       }
     }
-  
+
     echo "</ul>";
-  
+
     echo '<div name="Remove_all" href="" class="button-primary" value="Add All" onclick="RemoveAll();">Remove all posts from edition</div>';
-  
+
     echo "</div>";
-  
+
     echo "<div style='float:left;'>";
-  
+
     echo "<p style='text-align:center;' id = 'pugpig_same_terms_posts'>Posts sharing your terms:<br /></p>";
-  
+
     echo '<ul id="pugpig_same_terms_posts">';
-  
+
     // Get posts in the categories for the right hand side
     $terms = pugpig_get_post_terms($post);
-  
+
     if (count($terms) > 0) {
-  
+
       // Search everything except $p->post_type = PUGPIG_EDITION_POST_TYPE and attachment
       $taxonomy_name = pugpig_get_taxonomy_name();
       $args = array(
@@ -1012,21 +1012,21 @@ function pugpig_flatplan_info()
           'orderby'   => 'date',
           'order'     => 'DESC',
       );
-  
+
       $wp_query = new WP_Query($args);
 
       usort( $wp_query->posts, "pugpig_flatplan_orderby" );
       $orig_post = $post;
-  
+
       while ($wp_query->have_posts() ) :
         $wp_query->the_post();
-  
+
         global $post;
-  
+
          // Don't show children of certain types
         if ($post->post_parent != 0
             && in_array($post->post_type, pugpig_get_hierarchical_types())) continue;
-  
+
         if (!in_array($post->ID, $ecr)) {
           echo "<li id='$post->ID'>" . pugpig_get_flatplan_description($post);
           echo "<br />";
@@ -1039,28 +1039,28 @@ function pugpig_flatplan_info()
             $children = get_children($child_args);
           foreach ($children as $child) echo "&nbsp; --> " . $child->post_title . "<br />";
           echo "</li>";
-  
+
         }
-  
+
       endwhile;
       $post = $orig_post;
       wp_reset_postdata();
     }
-  
+
     echo "</ul>";
-  
+
     if (count($terms) > 0) {
       echo '<div name="Add_all" href="" class="button-primary" onclick="AddAll();" >Add these posts to edition</div>';
     } else {
       echo "This edition has no terms yet.";
     }
-  
+
     echo "</div>";
-  
+
     echo "</div>";
-  
+
     echo "<p class='reorder'><br />Posts will automatically be ordered by taxonomy.  If you have rearranged them and want to recover the original order, remove all posts from the edition, update, then add all posts in again.</p>";
-  
+
     echo "<p class='save_warning'><strong>You must hit Update to save your changes!</strong></p>";
 
     echo "<div style='clear: both;'></div>";
@@ -1068,19 +1068,19 @@ function pugpig_flatplan_info()
   } else {
 
     echo "<div id='pugpig_included'>";
-  
+
     echo "<div style='float:left;'>";
-  
+
     echo "<ul id='edition_included'>";
     foreach ($ecr as $post_id) {
       $p = get_post($post_id);
-      
+
       if (is_object($p)) {
-  
+
         // Don't show children of certain types
         if ($p->post_parent != 0
             && in_array($p->post_type, pugpig_get_hierarchical_types())) continue;
-  
+
         echo "<li id='$p->ID'>" . pugpig_get_flatplan_description($p);
         if ($p->post_status == 'trash' || $p->post_status == 'draft' || $p->post_status == 'pending') {
           echo "\n<span style='color:orange'>(". $p->post_status .")</span>";
@@ -1092,19 +1092,19 @@ function pugpig_flatplan_info()
             'orderby' => 'menu_order',
             'post_parent' => $post_id
         );
-  
+
         $children = get_children($child_args);
-  
+
         foreach ($children as $child) echo "&nbsp; --> " . $child->post_title . "<br />";
-  
+
         echo "</li>";
       }
     }
-  
+
     echo "</ul>";
-  
+
     echo "</div>";
-  
+
     echo "</div>";
 
     echo "<div style='clear: both;'></div>";
@@ -1189,31 +1189,31 @@ function pugpig_edition_show_columns($name)
             default:
 
               //echo "<a href='" . pugpig_path_to_abs_url(PUGPIG_MANIFESTPATH . "post-" . $post->ID) .".manifest'>View manifest</a><br />";
-    
+
               // If the permalink structure ends in slash we add "pugpig.manifest"
               // If the permalink structure ends without a slash we add "/pugpig.manifest"
               // If we have a query string, add it
-    
+
               $manifest_url = pugpig_get_manifest_url($post);
               $html_url = pugpig_get_html_url($post) . '?preview';
-    
+
               echo "<a href='$manifest_url'>View manifest</a><br />";
               echo "<a href='$html_url'>View HTML</a><br />";
-    
+
               // Add a hook to allow other links
               $extra_links = array();
               $original_post = $post;
               $extra_links = apply_filters('pugpig_admin_column_text_post', $extra_links, $post);
               foreach ($extra_links as $extra_link) echo $extra_link . "<br />";
-    
+
               // Get the current editions
               $post_editions =  pugpig_get_post_editions($original_post);
               echo implode(", ", array_map('pugpig_edition_name_map', $post_editions));
-              
+
               $x_post_ent = pugpig_get_post_entitlement_header($post);
               if (!empty($x_post_ent))
                 echo "<br /><span style=\"color:grey; font-size: smaller;\">$x_post_ent</span>";
-    
+
                /*
                 $edition_id = get_post_meta($post->ID, PUGPIG_POST_EDITION_LINK, true);
                 XXXXX
@@ -1223,7 +1223,7 @@ function pugpig_edition_show_columns($name)
                   echo pugpig_edition_edit_link($edition_id, "Edit edition") . "<br />";
                 }
                 */
-    
+
                 if (pugpig_should_use_thumbs()) {
                   $thumb = "/wordpress/kaldor/raster.php?url=" . get_permalink($post->ID);
                   echo "<img width='60' height='80' src='$thumb'  />";
