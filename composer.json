@@ -1,5 +1,5 @@
 {
-    "name": "shortlistmedia/shortlist-pugpig-connector",
+    "name": "shortlist-digital/pugpig",
     "type": "wordpress-plugin",
     "description": "Build PugPig compatible issues with WordPress",
     "version": "0.0.1",
