@@ -1,1 +1,3 @@
-# Don't use this
+# Connector
+
+Croissant compatible PugPig edition builder
