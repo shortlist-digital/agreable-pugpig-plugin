@@ -1,3 +1,3 @@
 # Connector
 
-Croissant compatible PugPig edition builder
+Croissant compatible PugPig edition builder and packager
