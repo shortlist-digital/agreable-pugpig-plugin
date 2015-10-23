@@ -374,10 +374,10 @@ add_action("admin_init", "pugpig_admin_init");
 function pugpig_admin_init()
 {
   // Needed for sortable flatplan
-  wp_register_script( 'mootoolscore', plugins_url('pugpig/') . "js/mootools-core-1.3.2-full-compat.js");
-  wp_register_script( 'mootoolsmore', plugins_url('pugpig/')  . "js/mootools-more-1.3.2.1.js");
-  wp_enqueue_script( 'mootoolscore' );
-  wp_enqueue_script( 'mootoolsmore' );
+  //wp_register_script( 'mootoolscore', plugins_url('pugpig/') . "js/mootools-core-1.3.2-full-compat.js");
+  //wp_register_script( 'mootoolsmore', plugins_url('pugpig/')  . "js/mootools-more-1.3.2.1.js");
+  //wp_enqueue_script( 'mootoolscore' );
+  //wp_enqueue_script( 'mootoolsmore' );
 
   $args=array(
     'public'   => true,
