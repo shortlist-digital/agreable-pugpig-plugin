@@ -25,10 +25,9 @@ add_action( 'admin_notices', 'pugpig_adbundles_admin_notice' );
 function pugpig_adbundles_admin_notice() {
 
   $allowed_types = get_site_option('upload_filetypes');
-  if (stripos($allowed_types, "zip") === FALSE) {
-      ?><div class="update-nag"><p><?php _e( 'Pugpig - Ad Bundles require zips to be in the allowed upload types.' ); ?></p></div>
-      <?php
-  }
+  if (!array_key_exists('zip', get_allowed_mime_types())) { ?>
+    <div class="update-nag"><p><?php _e( 'Pugpig - Ad Bundles require zips to be in the allowed upload types.' ); ?></p></div>
+  <?php }
 }
 
 add_action('init', 'pugpig_ad_bundles_register', 50);
