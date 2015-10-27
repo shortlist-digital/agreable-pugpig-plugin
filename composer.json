@@ -14,7 +14,8 @@
     "php": ">=5.3.0",
     "jonnyw/php-phantomjs": "^3.1",
     "simple-html-dom/simple-html-dom": "^1.5",
-    "getherbert/framework": "dev-dev"
+    "getherbert/framework": "dev-dev",
+    "jimmiw/php-time-ago": "dev-master"
   },
   "minimum-stability": "dev",
   "config": {
@@ -37,4 +38,3 @@
     "bin-dir": "bin"
   }
 }
-
