@@ -22,7 +22,7 @@ require_once 'common/pugpig_utilities.php';
 require_once 'pugpig_url_rewrites.php';
 
 if (!class_exists('\simple_html_dom_node')) {
-  require_once 'vendor/simple_html_dom.php';
+  require_once 'vendor/simple-html-dom/simple-html-dom/simple_html_dom.php';
 }
 
 add_filter('post_link','pugpig_permalink');
