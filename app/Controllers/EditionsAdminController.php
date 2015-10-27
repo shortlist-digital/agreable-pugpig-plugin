@@ -36,20 +36,23 @@ class EditionsAdminController {
   }
 
   function add_actions() {
-      \Jigsaw::add_column('pugpig_edition', 'Actions', function($pid) {
-        echo $pid;
-      });
+    \Jigsaw::add_column('pugpig_edition', 'Actions', function($pid) {
+      $web_preview = Helper::pluginDirectory() . "reader/reader.html?atom=";
+      echo view('@AgreablePugpigPlugin/actions-column.twig', array(
+        'web_preview_url' => $web_preview
+      ))->getBody();
+    });
   }
 
   function add_edition_date() {
-      \Jigsaw::add_column('pugpig_edition', 'Edition Date', function($pid) {
-        $custom = get_post_custom($pid);
-        $edition_date = date("Y-m-d");
-        if (isset($custom["edition_date"])) {
-          $edition_date = $custom["edition_date"][0];
-        }
-        echo $edition_date;
-      });
+    \Jigsaw::add_column('pugpig_edition', 'Edition Date', function($pid) {
+      $custom = get_post_custom($pid);
+      $edition_date = date("Y-m-d");
+      if (isset($custom["edition_date"])) {
+        $edition_date = $custom["edition_date"][0];
+      }
+      echo $edition_date;
+    });
   }
 
   function add_status() {
