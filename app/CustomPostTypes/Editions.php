@@ -35,6 +35,6 @@ class Editions {
       'supports' => array('title', 'excerpt','thumbnail') // Custom Fields for debug 'custom-fields'
       );
 
-    \register_post_type( 'Editions' , $args );
+    \register_post_type( 'pugpig_edition' , $args );
   }
 }

@@ -1,4 +1,4 @@
-<?php namespace MyPlugin;
+<?php namespace AgreablePugpigPlugin;
 
 class Helper {
 

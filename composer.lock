@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "1e0f5fe7b4c3e95d8c94996c64a762fc",
-    "content-hash": "dc7199838076cdcaa43ed6dcaeaa5bc8",
+    "hash": "be101893826fb46c0fa729cd5152bde5",
+    "content-hash": "d371c446000ea9c1b4583b528c736e26",
     "packages": [
         {
             "name": "composer/installers",
@@ -595,6 +595,49 @@
             "time": "2014-07-29 09:42:52"
         },
         {
+            "name": "jimmiw/php-time-ago",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jimmiw/php-time-ago.git",
+                "reference": "0dd29552265e6f369999918eca662ef0623034e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jimmiw/php-time-ago/zipball/0dd29552265e6f369999918eca662ef0623034e3",
+                "reference": "0dd29552265e6f369999918eca662ef0623034e3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=4"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "timeago.inc.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jimmi Westerberg",
+                    "homepage": "http://www.westsworld.dk",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Simple module, that displays the date in a \"time ago\" format",
+            "homepage": "https://github.com/jimmiw/php-time-ago",
+            "keywords": [
+                "distance of time",
+                "time ago",
+                "time ago in words"
+            ],
+            "time": "2015-10-23 07:31:04"
+        },
+        {
             "name": "jonnyw/php-phantomjs",
             "version": "v3.1.5",
             "source": {
@@ -883,7 +926,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/3eb32583b629f4e84ab90da97aff4f5e0d870e1a",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/c93e60b00539b9b2964ae80903b3620fda4919ff",
                 "reference": "3eb32583b629f4e84ab90da97aff4f5e0d870e1a",
                 "shasum": ""
             },
@@ -1495,7 +1538,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "getherbert/framework": 20
+        "getherbert/framework": 20,
+        "jimmiw/php-time-ago": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
