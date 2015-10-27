@@ -1,20 +1,29 @@
 {
-  "name": "shortlist-digital/pugpig",
+  "name": "shortlist-digital/agreable-pugpig-plugin",
   "type": "wordpress-plugin",
-  "description": "Build PugPig compatible issues with WordPress",
-  "license": "GPLv2",
-  "authors": [
-      {
-          "name": "Jon Sherrard",
-          "email": "jon@andthats.it"
-      }
+  "description": "Wordpress plugin for Shortlist Media.",
+  "license": "MIT",
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/getherbert/framework"
+    }
   ],
-  "keywords": ["plugin","wordpress", "pugpig"],
   "require": {
     "composer/installers": "~1.0.6",
     "php": ">=5.3.0",
     "jonnyw/php-phantomjs": "^3.1",
-    "simple-html-dom/simple-html-dom": "^1.5"
+    "simple-html-dom/simple-html-dom": "^1.5",
+    "getherbert/framework": "dev-dev"
+  },
+  "minimum-stability": "dev",
+  "config": {
+    "preferred-install": "dist"
+  },
+  "autoload": {
+    "psr-4": {
+      "AgreablePugpigPlugin\\": "app/"
+    }
   },
   "scripts": {
     "post-install-cmd": [
