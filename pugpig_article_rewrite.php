@@ -3,7 +3,6 @@
  * @file
  * Pugpig Article Rewrite
  */
-?><?php
 /*
 
 Licence:
@@ -12,12 +11,11 @@ Licence:
 This module is released under the GNU General Public License.
 See COPYRIGHT.txt and LICENSE.txt
 
- */?><?php
-
 /************************************************************************
 Change the permalink to rewrite outgoing links
 *************************************************************************/
 
+require __DIR__ . '/vendor/autoload.php';
 require_once 'common/url_to_absolute/add_relative_dots.php';
 require_once 'common/pugpig_manifests.php';
 require_once 'common/pugpig_utilities.php';

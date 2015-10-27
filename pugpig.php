@@ -28,6 +28,8 @@ if ( version_compare( $wp_version, "3.1", "<" ) ) {
     exit( 'This plugin requires php5 and WordPress 3.1 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please update!</a>' );
 }
 
+require __DIR__ . '/vendor/autoload.php';
+
 /************************************************************************
 Includes
 *************************************************************************/
