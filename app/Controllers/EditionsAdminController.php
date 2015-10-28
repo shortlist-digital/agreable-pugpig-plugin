@@ -1,8 +1,13 @@
 <?php namespace AgreablePugpigPlugin\Controllers;
 
 use AgreablePugpigPlugin\Helper;
+use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 
 class EditionsAdminController {
+
+  function __construct() {
+    $this->linkGenerator = new LinkGeneratorController;
+  }
 
   public function init() {
     $this->remove_columns();
@@ -29,7 +34,11 @@ class EditionsAdminController {
       $cover_html = get_the_post_thumbnail($pid);
       if (empty($cover_html)) {
         $thumbnail = Helper::assetUrl('/img/no-cover.jpg');
-        $cover_html = "<img width=\"$width\" height=\"$height\" src=\"$thumbnail\" class=\"attachment-post-thumbnail wp-post-image\" alt=\"No cover specified\">";
+        $cover_html = view('@AgreablePugpigPlugin/cover-column.twig', array(
+          'width' => $width,
+          'height' => $height,
+          'thumbnail' => $thumbnail
+        ))->getBody();
       }
       echo $cover_html;
     });
@@ -37,7 +46,7 @@ class EditionsAdminController {
 
   function add_actions() {
     \Jigsaw::add_column('pugpig_edition', 'Actions', function($pid) {
-      $web_preview = Helper::pluginDirectory() . "reader/reader.html?atom=";
+      $web_preview = $this->linkGenerator->edition_preview_url($pid);
       echo view('@AgreablePugpigPlugin/actions-column.twig', array(
         'web_preview_url' => $web_preview
       ))->getBody();
@@ -66,6 +75,7 @@ class EditionsAdminController {
       }
 
       $custom = get_post_custom($pid);
+      $page_count = false;
       if (isset($custom['pugpig_edition_contents_array'])) {
         $page_count = get_post_custom($pid)['pugpig_edition_contents_array'][0];
       }

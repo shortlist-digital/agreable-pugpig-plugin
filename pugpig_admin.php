@@ -1293,7 +1293,7 @@ function pugpig_edition_custom_columns($column)
       $page_count = count(pugpig_get_edition_array($custom));
       if ($page_count === 0) {
         $page_count = "<span style=\"color: red;\">NO PAGES</span>";
-      }
+        }
       echo $group_separator . _pugpig_edition_get_column_text("Page Count", $page_count, $use_short_form);
 
       if (!empty($custom["edition_author"][0])) {
@@ -1406,7 +1406,7 @@ function pugpig_edition_custom_columns($column)
       set_post_thumbnail_size($width, $height);
       $cover_html = get_the_post_thumbnail($post->ID);
       if (empty($cover_html)) {
-        $thumbnail = BASE_URL . "common/images/nocover.jpg";
+        $thumbnail = . "common/images/nocover.jpg";
         $cover_html = "<img width=\"$width\" height=\"$height\" src=\"$thumbnail\" class=\"attachment-post-thumbnail wp-post-image\" alt=\"No cover specified\">";
       }
       echo $cover_html;
