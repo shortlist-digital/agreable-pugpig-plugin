@@ -20,8 +20,10 @@ class FeedGeneratorController {
     return $new_time;
   }
 
-  function edition_feed($edition_id) {
-    return view('@AgreablePugpigPlugin/edition_feed.twig')->getBody();
+  function edition_feed($feed_data) {
+    return view('@AgreablePugpigPlugin/edition_feed.twig', array(
+      'feed' => $feed_data
+    ))->getBody();
   }
 
 }
