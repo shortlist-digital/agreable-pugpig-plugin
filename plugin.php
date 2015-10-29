@@ -34,3 +34,10 @@ if(file_exists(__DIR__ . '/vendor/getherbert/framework/bootstrap/autoload.php'))
 } else {
   throw new Exception('Something went badly wrong');
 }
+
+$wp_ud_arr = wp_upload_dir();
+
+define( 'PUGPIG_MANIFESTURL', 'app/uploads/pugpig-api/');
+define( 'PUGPIG_MANIFESTPATH', str_replace('\\', '/', $wp_ud_arr['basedir']) .'/pugpig-api/' );
+// define( 'PUGPIG_THEME_MANIFEST', PUGPIG_MANIFESTPATH . 'wordpress-theme.manifest');
+
