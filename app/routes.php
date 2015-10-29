@@ -11,8 +11,6 @@ $router->get([
 $router->get([
   'as'   => 'pugpigIndex',
   'uri'  => '/{year}/{month}/{day}/{slug}/pugpig.manifest',
-  'uses' => function($year, $month, $day, $slug) {
-    echo "generate matifest here";
-  }
+  'uses' => __NAMESPACE__ . '\Controllers\PostManifestController@index'
 ]);
 
