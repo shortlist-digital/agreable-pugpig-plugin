@@ -1,6 +1,3 @@
-<pre>
-  {{dump(feed)}}
-</pre>
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xmlns:app="http://www.w3.org/2007/app" xmlns:dcterms="http://purl.org/dc/terms/">
   <id>editions_{{feed.edition_key}}</id>
@@ -11,21 +8,23 @@
   <author>
     <name>Shortlist</name>
   </author>
+  {% for post in posts %}
   <entry>
-    <title>Test Long Form - Colour</title>
-    <id>page-12</id>
-    <updated></updated>
-    <published>2015-10-07T14:52:18+00:00</published>
+    <title>{{post.post_title}}</title>
+    <id>page-{{post.id}}</id>
+    <updated>{{post.last_updated}}</updated>
+    <published>{{post.published_time}}</published>
     <author>
-      <name>Simon Donaldson</name>
+      <name>{{feed.site_name}}</name>
     </author>
     <summary type="text"></summary>
-    <category scheme="http://schema.pugpig.com/section" term="colour"/>
+    <category scheme="http://schema.pugpig.com/section" term="{{post.section}}"/>
     <category scheme="http://schema.pugpig.com/access" term=""/>
     <category scheme="http://schema.pugpig.com/pagetype" term="post"/>
     <category scheme="http://schema.pugpig.com/level" term="1"/>
-    <link type="text/cache-manifest" href="../../2015/10/07/test-post/pugpig.manifest" rel="related"/>
-    <link type="text/html" href="../../2015/10/07/test-post/pugpig_index.html" rel="alternate"/>
-    <link type="text/html" href="http://staging.newsstandapi.stylist.co.uk/2015/10/07/test-post/" rel="bookmark"/>
+    <link type="text/cache-manifest" href="{{post.manifest}}" rel="related"/>
+    <link type="text/html" href="{{post.index}}" rel="alternate"/>
+    <link type="text/html" href="{{post.permalink}}" rel="bookmark"/>
   </entry>
+  {% endfor %}
 </feed>
