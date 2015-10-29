@@ -2,11 +2,13 @@
 
 use AgreablePugpigPlugin\Helper;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
+use AgreablePugpigPlugin\Controllers\PugpigBridgeController;
 
 class EditionsAdminController {
 
   function __construct() {
     $this->linkGenerator = new LinkGeneratorController;
+    $this->pugpigBridge = new PugpigBridgeController;
   }
 
   public function init() {
@@ -48,7 +50,8 @@ class EditionsAdminController {
     \Jigsaw::add_column('pugpig_edition', 'Actions', function($pid) {
       $web_preview = $this->linkGenerator->edition_preview_url($pid);
       echo view('@AgreablePugpigPlugin/actions-column.twig', array(
-        'web_preview_url' => $web_preview
+        'web_preview_url' => $web_preview,
+        'packager_url' => $this->pugpigBridge->packager_url($pid)
       ))->getBody();
     });
   }
