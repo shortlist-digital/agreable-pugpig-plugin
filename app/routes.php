@@ -8,13 +8,11 @@ $router->get([
   'uses' => __NAMESPACE__ . '\Controllers\EditionsFeedController@feed'
 ]);
 
-/*
 $router->get([
   'as'   => 'pugpigIndex',
-  'uri'  => '/{year}/{month}/{day}/{slug}/pugpig_index.html',
+  'uri'  => '/{year}/{month}/{day}/{slug}/pugpig.manifest',
   'uses' => function($year, $month, $day, $slug) {
-    header("location: /$year/$month/$day/$slug");
+    echo "generate matifest here";
   }
 ]);
-*/
 
