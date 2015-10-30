@@ -14,7 +14,7 @@ class PostManifestController {
     $this->permalink = get_permalink($post_object);
     $cachebust = time();
     $this->raw_html = file_get_contents($this->permalink);
-    $headers['Content-Type'] = "application/atom+xml";
+    $headers['Content-Type'] = "text/cache-manifest;";
     return response($this->build_manifest(), 200, $headers);
   }
 
