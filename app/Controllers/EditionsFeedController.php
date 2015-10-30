@@ -21,7 +21,9 @@ class EditionsFeedController {
     $object->edition_key = $custom['edition_key'][0];
     $object->edition_title = $data->post_title;
     $object->atom_url = $this->linkGenerator->edition_atom_url($id);
-    $object->post_array = unserialize($custom['pugpig_edition_contents_array'][0]);
+    if (isset($custom['pugpig_edition_contents_array'])) {
+      $object->post_array = unserialize($custom['pugpig_edition_contents_array'][0]);
+    }
     $modified_timestamp = strtotime($data->post_modified);
     $last_updated = $this->feedGenerator->convert_timestamp($modified_timestamp);
     $object->last_updated = $last_updated;
@@ -57,7 +59,11 @@ class EditionsFeedController {
 
   public function feed($id, Http $http) {
     $feed_data = $this->get_feed_data($id);
-    $post_data = $this->get_post_data($feed_data->post_array);
+    if (isset($feed_data->post_array)) {
+      $post_data = $this->get_post_data($feed_data->post_array);
+    } else {
+      $post_data = array();
+    }
     $headers = [];
     $headers['Content-Type'] = "application/atom+xml";
     return response($this->feedGenerator->edition_feed($feed_data, $post_data), 200, $headers);
