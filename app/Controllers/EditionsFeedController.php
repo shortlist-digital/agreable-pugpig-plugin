@@ -2,6 +2,7 @@
 
 use Herbert\Framework\Http;
 
+use TimberPost;
 use AgreablePugpigPlugin\Helper;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 use AgreablePugpigPlugin\Controllers\FeedGeneratorController;
@@ -15,16 +16,15 @@ class EditionsFeedController {
 
   function get_feed_data($id) {
     $object = new \StdClass;
-    $data = get_post($id);
-    $custom = get_post_custom($id);
+    $edition = new TimberPost($id);
     $object->site_name = get_bloginfo('name');
-    $object->edition_key = $custom['edition_key'][0];
-    $object->edition_title = $data->post_title;
+    $object->edition_key = $edition->edition_key;
+    $object->edition_title = $edition->post_title;
     $object->atom_url = $this->linkGenerator->edition_atom_url($id);
-    if (isset($custom['pugpig_edition_contents_array'])) {
-      $object->post_array = unserialize($custom['pugpig_edition_contents_array'][0]);
+    if (is_array($edition->flatplan)) {
+      $object->post_array = $edition->flatplan;
     }
-    $modified_timestamp = strtotime($data->post_modified);
+    $modified_timestamp = strtotime($edition->post_modified);
     $last_updated = $this->feedGenerator->convert_timestamp($modified_timestamp);
     $object->last_updated = $last_updated;
     return $object;
