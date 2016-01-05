@@ -1,13 +1,12 @@
 <?php namespace AgreablePugpigPlugin\Controllers;
 
-use Herbert\Framework\Http;
-
+use Sunra\PhpSimple\HtmlDomParser;
 use AgreablePugpigPlugin\Helper;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 
 class PostManifestController {
 
-  public function index($slug, Http $http) {
+  public function index($slug) {
     $post_object = get_page_by_path($slug ,OBJECT,'post');
     $this->post = new \TimberPost($post_object);
     $this->base_url = get_bloginfo('url');
@@ -89,10 +88,14 @@ class PostManifestController {
   }
 
   public function inline_images() {
-    $this->comment("Inline Images:");
-    foreach($this->image_urls() as $url):
-      $this->line($url);
+    $time_pre = microtime(true);
+    $dom = HtmlDomParser::str_get_html($this->raw_html);
+    foreach($dom->find('img') as $element):
+      $this->line($this->absolute_to_relative_url($element->src));
     endforeach;
+    $time_post = microtime(true);
+    $exec_time = $time_post - $time_pre;
+    $this->comment("Images found in $exec_time");
   }
 
   public function image_urls() {
