@@ -22,9 +22,8 @@ class EditionsFeedController {
     foreach($files as $file) {
       $name = pathinfo($file, PATHINFO_FILENAME);
       if (strpos(strtolower($name), strtolower($edition->edition_key))) {
-        $string = readfile($file);
         $headers['Content-Type'] = "application/atom+xml";
-        return response($string, 200, $headers);
+        return response(file_get_contents($file), 200, $headers);
       }
     }
   }
