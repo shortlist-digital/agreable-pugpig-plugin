@@ -14,6 +14,21 @@ class EditionsAdminController {
   public function init() {
     $this->remove_columns();
     $this->add_columns();
+    \add_filter('acf/fields/relationship/query', array($this, 'filter_flatplan_taxonomy'), 12, 3);
+    \add_action( 'save_post', array($this, 'edition_hooks') );
+
+  }
+
+  function edition_hooks($post_id) {
+    $edition = new \TimberPost($post_id);
+    if ($edition->post_type !== 'pugpig_edition') return;
+  }
+
+  function filter_flatplan_taxonomy($args, $field, $post_id) {
+    $args['order'] = 'DESC';
+    $args['orderby'] = 'modified';
+    $args['tag_id'] = (new \TimberPost($post_id))->edition_number[0];
+    return $args;
   }
 
   function remove_columns() {
