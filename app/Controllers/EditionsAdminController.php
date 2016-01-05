@@ -1,5 +1,7 @@
 <?php namespace AgreablePugpigPlugin\Controllers;
 
+use Timber;
+use TimberPost;
 use AgreablePugpigPlugin\Helper;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 use AgreablePugpigPlugin\Controllers\PugpigBridgeController;
@@ -15,12 +17,68 @@ class EditionsAdminController {
     $this->remove_columns();
     $this->add_columns();
     \add_filter('acf/fields/relationship/query', array($this, 'filter_flatplan_taxonomy'), 12, 3);
-    \add_action( 'save_post', array($this, 'edition_hooks') );
-
+    \add_filter('wp_insert_post_data', array($this, 'check_for_tag_update'), 12, 3);
   }
 
-  function edition_hooks($post_id) {
-    $edition = new \TimberPost($post_id);
+  function check_for_tag_update($post_data, $post_array) {
+    $post_id = $post_array['ID'];
+    $post = new TimberPost($post_id);
+    $tags = wp_get_post_tags($post->id);
+    $old_tag_id = $new_tag_id = false;
+    if (isset($tags[0]->term_id)) $old_tag_id = $tags[0]->term_id;
+    if (isset($post_array['tax_input']['post_tag'][0])) $new_tag_id = $post_array['tax_input']['post_tag'][0];
+    if ($old_tag_id === $new_tag_id) return $post_data;
+    if (($old_tag_id === false) && $new_tag_id) { $this->add_post_to_edition($post, $new_tag_id); return $post_data; }
+    if ($old_tag_id && ($new_tag_id === false)) { $this->remove_post_from_edition($post, $old_tag_id); return $post_data; }
+
+    if ($old_tag_id !== $new_tag_id) {
+      $this->remove_post_from_edition($post);
+      $this->add_post_to_edition($post);
+      return $post_data;
+    }
+
+    return $post_data;
+  }
+
+  function remove_post_from_edition($post, $tag_id) {
+    $post_id = $post->id;
+    $edition_number = $tag_id;
+    $args = array(
+      'post_type' => 'pugpig_edition',
+      'meta_query' => array(
+        'meta_key' => 'edition_number',
+        'meta_value' => $edition_number
+      )
+    );
+    $edition = Timber::get_post($args);
+    $linked_post_ids = $edition->flatplan; //Array
+    if (is_array($linked_post_ids)) {
+      if(($key = array_search($post_id, $linked_post_ids)) !== false) {
+        unset($linked_post_ids[$key]);
+      }
+      update_field('flatplan', $linked_post_ids, $edition->id);
+    }
+  }
+
+  function add_post_to_edition(TimberPost $post, $tag_id) {
+    $post_id = $post->id;
+    $edition_number = $tag_id;
+    $args = array(
+      'post_type' => 'pugpig_edition',
+      'meta_query' => array(
+        'meta_key' => 'edition_number',
+        'meta_value' => $edition_number
+      )
+    );
+    $edition = Timber::get_post($args);
+    $linked_post_ids = is_array($edition->flatplan) ? $edition->flatplan : array(); //Array
+    if (!in_array($post_id, $linked_post_ids)) {
+      array_push($linked_post_ids, $post_id);
+      update_field('flatplan', $linked_post_ids, $edition->id);
+    }
+  }
+
+  function edition_hooks(TimberPost $edition) {
     if ($edition->post_type !== 'pugpig_edition') return;
   }
 
@@ -85,6 +143,8 @@ class EditionsAdminController {
   function add_status() {
     \Jigsaw::add_column('pugpig_edition', 'Status', function($pid) {
 
+      $edition = new \TimberPost($pid);
+
       $post_status = get_post_status($pid);
       if ($post_status === 'publish') {
         $post_status = '<em>published</em>';
@@ -94,8 +154,9 @@ class EditionsAdminController {
 
       $custom = get_post_custom($pid);
       $page_count = false;
-      if (isset($custom['pugpig_edition_contents_array'])) {
-        $page_count = get_post_custom($pid)['pugpig_edition_contents_array'][0];
+
+      if ($edition->flatplan) {
+        $page_count = count($edition->flatplan);
       }
 
       $timeAgo = new \TimeAgo();
@@ -105,7 +166,7 @@ class EditionsAdminController {
 
       echo view('@AgreablePugpigPlugin/status-column.twig', array(
         'post_status' => $post_status,
-        'custom' => $page_count ? count(unserialize($page_count)) : 0,
+        'custom' => $page_count ? $page_count : 0,
         'last_updated' => $last_update
       ))->getBody();
     });
