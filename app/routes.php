@@ -14,3 +14,8 @@ $router->get([
   'uses' => __NAMESPACE__ . '\Controllers\PostManifestController@index'
 ]);
 
+$router->get([
+  'as'   => 'opdsFeed',
+  'uri'  => '/editions.xml',
+  'uses' => __NAMESPACE__ . '\Controllers\OpdsFeedController@index'
+]);
