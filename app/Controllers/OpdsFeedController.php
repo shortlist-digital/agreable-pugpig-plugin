@@ -25,7 +25,8 @@ class OpdsFeedController {
       'post_status' => 'publish',
       'orderby' => 'date'
     );
-    return Timber::get_posts($args);
+    $editions = Timber::get_posts($args);
+    return $editions;
   }
 
 }

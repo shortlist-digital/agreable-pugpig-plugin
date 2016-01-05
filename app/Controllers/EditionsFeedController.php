@@ -14,6 +14,21 @@ class EditionsFeedController {
     $this->feedGenerator = new FeedGeneratorController;
   }
 
+  function package_list($id, Http $http) {
+    $edition = new TimberPost($id);
+    $upload_dir = wp_upload_dir();
+    $packages_dir = $upload_dir['basedir']."/pugpig-api/packages";
+    $files = glob($packages_dir."/*.xml");
+    foreach($files as $file) {
+      $name = pathinfo($file, PATHINFO_FILENAME);
+      if (strpos(strtolower($name), strtolower($edition->edition_key))) {
+        $string = readfile($file);
+        $headers['Content-Type'] = "application/atom+xml";
+        return response($string, 200, $headers);
+      }
+    }
+  }
+
   function get_feed_data($id) {
     $object = new \StdClass;
     $edition = new TimberPost($id);

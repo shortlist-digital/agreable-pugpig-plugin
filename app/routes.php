@@ -9,10 +9,17 @@ $router->get([
 ]);
 
 $router->get([
+  'as'   => 'editionFeed',
+  'uri'  => '/editionfeed/{id}/pugpig_package_list.manifest',
+  'uses' => __NAMESPACE__ . '\Controllers\EditionsFeedController@package_list'
+]);
+
+$router->get([
   'as'   => 'pugpigIndex',
   'uri'  => '/{year}/{month}/{day}/{slug}/pugpig.manifest',
   'uses' => __NAMESPACE__ . '\Controllers\PostManifestController@index'
 ]);
+
 
 $router->get([
   'as'   => 'opdsFeed',
