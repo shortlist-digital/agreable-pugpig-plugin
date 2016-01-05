@@ -13,6 +13,7 @@ return [
      */
     'requires' => [
         __DIR__ . '/app/customPostTypes.php',
+        __DIR__ . '/app/CustomFields/edition.php',
         __DIR__ . '/app/hooks.php'
     ],
 
