@@ -32,8 +32,8 @@ class EditionsAdminController {
     if ($old_tag_id && ($new_tag_id === false)) { $this->remove_post_from_edition($post, $old_tag_id); return $post_data; }
 
     if ($old_tag_id !== $new_tag_id) {
-      $this->remove_post_from_edition($post);
-      $this->add_post_to_edition($post);
+      $this->remove_post_from_edition($post, $old_tag_id);
+      $this->add_post_to_edition($post, $new_tag_id);
       return $post_data;
     }
 
