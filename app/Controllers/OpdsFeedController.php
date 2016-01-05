@@ -1,13 +1,31 @@
 <?php namespace AgreablePugpigPlugin\Controllers;
 
+use Timber;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 use AgreablePugpigPlugin\Controllers\FeedGeneratorController;
 
 class OpdsFeedController {
 
   public function index() {
-    define('PUGPIG_CURRENT_VERSION', '2.3.8');
-    require_once(WP_PLUGIN_DIR . '/pugpig/feeds/pugpig_feed_opds.php');
+    $this->set_headers();
+    $editions_data = $this->get_recent_editions();
+    return view('@AgreablePugpigPlugin/issues_feed.twig', array(
+      'editions' => $editions_data
+    ))->getBody();
+  }
+
+  public function set_headers() {
+    header('Content-Type:application/atom+xml; charset=utf-8');
+  }
+
+  public function get_recent_editions() {
+    $args = array(
+      'post_type' => 'pugpig_edition',
+      'order' => 'DESC',
+      'post_status' => 'publish',
+      'orderby' => 'date'
+    );
+    return Timber::get_posts($args);
   }
 
 }
