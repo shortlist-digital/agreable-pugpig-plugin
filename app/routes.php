@@ -26,3 +26,9 @@ $router->get([
   'uri'  => '/editions.xml',
   'uses' => __NAMESPACE__ . '\Controllers\OpdsFeedController@index'
 ]);
+
+$router->get([
+  'as'   => 'opdsFeed',
+  'uri'  => '/feed/opds',
+  'uses' => __NAMESPACE__ . '\Controllers\OpdsFeedController@index'
+]);
