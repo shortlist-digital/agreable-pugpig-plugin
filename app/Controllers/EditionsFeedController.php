@@ -8,25 +8,22 @@ use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 use AgreablePugpigPlugin\Controllers\FeedGeneratorController;
 use AgreablePugpigPlugin\Controllers\ResponseController;
 
+use AgreablePugpigPlugin\Services\EditionPackageReader;
+
 class EditionsFeedController {
 
   function __construct() {
     $this->linkGenerator = new LinkGeneratorController;
     $this->feedGenerator = new FeedGeneratorController;
     $this->respond = new ResponseController;
+
+
   }
 
   function package_list($id, Http $http) {
     $edition = new TimberPost($id);
-    $upload_dir = wp_upload_dir();
-    $packages_dir = $upload_dir['basedir']."/pugpig-api/packages";
-    $files = glob($packages_dir."/*.xml");
-    foreach($files as $file) {
-      $name = pathinfo($file, PATHINFO_FILENAME);
-      if (strpos(strtolower($name), strtolower($edition->edition_key))) {
-        return $this->respond->package(file_get_contents($file), $edition->post_modified_gmt);
-      }
-    }
+    $epr = new EditionPackageReader($id);
+    return $this->respond->package($epr->package_string(), $edition->post_modified_gmt);
   }
 
   function get_feed_data($id) {

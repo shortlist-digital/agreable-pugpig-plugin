@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ab24a555c78e4ac753de17901cbc9a78",
-    "content-hash": "9bd345fc3c92c3b12e5183ba3f274609",
+    "hash": "23d30a35d0ed5b8fb370e1a484dcbe2e",
+    "content-hash": "9f86e89a2a00cca894dac627cb063f7a",
     "packages": [
         {
             "name": "composer/installers",
@@ -737,6 +737,51 @@
             "time": "2015-06-02 13:48:41"
         },
         {
+            "name": "rych/bytesize",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/rchouinard/bytesize.git",
+                "reference": "297e16ea047461b91e8d7eb90aa46aaa52917824"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/rchouinard/bytesize/zipball/297e16ea047461b91e8d7eb90aa46aaa52917824",
+                "reference": "297e16ea047461b91e8d7eb90aa46aaa52917824",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "php": ">=5.3.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Rych\\ByteSize\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ryan Chouinard",
+                    "email": "rchouinard@gmail.com",
+                    "homepage": "http://ryanchouinard.com"
+                }
+            ],
+            "description": "Utility component for nicely formatted file sizes.",
+            "homepage": "https://github.com/rchouinard/bytesize",
+            "keywords": [
+                "filesize"
+            ],
+            "time": "2014-04-04 18:06:18"
+        },
+        {
             "name": "sunra/php-simple-html-dom-parser",
             "version": "v1.5.0",
             "source": {
@@ -1116,7 +1161,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/5ac6ce3097f9d7101830b1b867a7039a7b0a14c3",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/e1c504974ca7772dd8bb0ba7d72dbaca9466a9e4",
                 "reference": "5ac6ce3097f9d7101830b1b867a7039a7b0a14c3",
                 "shasum": ""
             },

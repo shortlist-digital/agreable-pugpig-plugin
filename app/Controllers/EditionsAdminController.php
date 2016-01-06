@@ -6,6 +6,8 @@ use AgreablePugpigPlugin\Helper;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 use AgreablePugpigPlugin\Controllers\PugpigBridgeController;
 
+use AgreablePugpigPlugin\Services\EditionPackageReader;
+
 class EditionsAdminController {
 
   function __construct() {
@@ -113,10 +115,14 @@ class EditionsAdminController {
       $post_time = date("Y\/n\/j\ H:i:s", $post_time);
       $last_update = $timeAgo->inWords($post_time);
 
+      $epr = new EditionPackageReader($pid);
+
+
       echo view('@AgreablePugpigPlugin/status-column.twig', array(
         'post_status' => $post_status,
         'custom' => $page_count ? $page_count : 0,
-        'last_updated' => $last_update
+        'last_updated' => $last_update,
+        'package_size' => $epr->package_size()
       ))->getBody();
     });
   }
