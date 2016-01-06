@@ -1,9 +1,6 @@
 <?php namespace AgreablePugpigPlugin\Hooks;
 
 use add_filter;
-use Timber;
-use TimberPost;
-use Jigsaw;
 
 class EditionHooks {
 

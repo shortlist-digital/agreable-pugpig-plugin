@@ -16,8 +16,10 @@ class EditionPackageReader {
     $files = glob($packages_dir."/*.xml");
     foreach($files as $file) {
       $name = pathinfo($file, PATHINFO_FILENAME);
-      if (strpos(strtolower($name), strtolower($edition->edition_key))) {
-        return file_get_contents($file);
+      if (!empty($name) && !empty($edition->edition_key)) {
+        if (strpos(strtolower($name), strtolower($edition->edition_key))) {
+          return file_get_contents($file);
+        }
       }
     }
     return false;
@@ -26,10 +28,14 @@ class EditionPackageReader {
   public function package_size() {
     $bytesize = new ByteSize;
     $simple = $this->package_string();
-    $p = xml_parser_create();
-    xml_parse_into_struct($p, $simple, $vals, $index);
-    xml_parser_free($p);
-    return $bytesize->format($vals[0]['attributes']['SIZE']);
+    if ($simple) {
+      $p = xml_parser_create();
+      xml_parse_into_struct($p, $simple, $vals, $index);
+      xml_parser_free($p);
+      return $bytesize->format($vals[0]['attributes']['SIZE']);
+    } else {
+      return "N/A";
+    }
   }
 
 }

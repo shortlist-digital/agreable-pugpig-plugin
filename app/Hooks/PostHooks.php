@@ -29,7 +29,7 @@ class Posthooks {
     if (!empty($post_array['ID'])) {
       $post_id = $post_array['ID'];
       $post = new TimberPost($post_id);
-      if ($this->check($post)) return;
+      if ($this->check($post)) { return $post_data; }
       $tags = wp_get_post_tags($post->id);
       $old_tag_id = $new_tag_id = false;
       if (isset($tags[0]->term_id)) $old_tag_id = $tags[0]->term_id;
