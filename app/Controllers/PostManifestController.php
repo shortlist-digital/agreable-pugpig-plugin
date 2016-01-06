@@ -3,8 +3,13 @@
 use Sunra\PhpSimple\HtmlDomParser;
 use AgreablePugpigPlugin\Helper;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
+use AgreablePugpigPlugin\Controllers\ResponseController;
 
 class PostManifestController {
+
+  function __construct() {
+    $this->respond = new ResponseController;
+  }
 
   public function index($slug) {
     $post_object = get_page_by_path($slug ,OBJECT,'post');
@@ -13,8 +18,8 @@ class PostManifestController {
     $this->permalink = get_permalink($post_object);
     $cachebust = time();
     $this->raw_html = file_get_contents($this->permalink);
-    $headers['Content-Type'] = "text/cache-manifest;";
-    return response($this->build_manifest(), 200, $headers);
+    $last_modified = $this->post->post_modified_gmt;
+    return $this->respond->manifest($this->build_manifest(), $last_modified);
   }
 
   public function build_manifest() {

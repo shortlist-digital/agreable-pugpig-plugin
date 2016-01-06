@@ -6,12 +6,14 @@ use TimberPost;
 use AgreablePugpigPlugin\Helper;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 use AgreablePugpigPlugin\Controllers\FeedGeneratorController;
+use AgreablePugpigPlugin\Controllers\ResponseController;
 
 class EditionsFeedController {
 
   function __construct() {
     $this->linkGenerator = new LinkGeneratorController;
     $this->feedGenerator = new FeedGeneratorController;
+    $this->respond = new ResponseController;
   }
 
   function package_list($id, Http $http) {
@@ -22,10 +24,7 @@ class EditionsFeedController {
     foreach($files as $file) {
       $name = pathinfo($file, PATHINFO_FILENAME);
       if (strpos(strtolower($name), strtolower($edition->edition_key))) {
-        $headers['Content-Disposition'] = "inline";
-        $headers['Content-Type'] = "application/pugpigpkg+xml";
-        $headers['X-Pugpig-Status'] = "published";
-        return response(file_get_contents($file), 200, $headers);
+        return $this->respond->package(file_get_contents($file), $edition->post_modified_gmt);
       }
     }
   }
@@ -73,15 +72,13 @@ class EditionsFeedController {
     return $object;
   }
 
-  public function feed($id, Http $http) {
+  public function feed($id) {
     $feed_data = $this->get_feed_data($id);
     if (isset($feed_data->post_array)) {
       $post_data = $this->get_post_data($feed_data->post_array);
     } else {
       $post_data = array();
     }
-    $headers = [];
-    $headers['Content-Type'] = "application/atom+xml";
-    return response($this->feedGenerator->edition_feed($feed_data, $post_data), 200, $headers);
+    return $this->respond->atom($this->feedGenerator->edition_feed($feed_data, $post_data), $feed_data->last_updated);
   }
 }
