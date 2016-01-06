@@ -1,6 +1,7 @@
 <?php namespace AgreablePugpigPlugin\Controllers;
 
 use Timber;
+use TimberSite;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 use AgreablePugpigPlugin\Controllers\FeedGeneratorController;
 
@@ -10,7 +11,8 @@ class OpdsFeedController {
     $this->set_headers();
     $editions_data = $this->get_recent_editions();
     return view('@AgreablePugpigPlugin/issues_feed.twig', array(
-      'editions' => $editions_data
+      'editions' => $editions_data,
+      'site' => new TimberSite
     ))->getBody();
   }
 
