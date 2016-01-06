@@ -44,6 +44,7 @@ class Posthooks {
         return $post_data;
       }
     }
+    return $post_data;
   }
 
   function remove_post_from_edition($post, $tag_id) {

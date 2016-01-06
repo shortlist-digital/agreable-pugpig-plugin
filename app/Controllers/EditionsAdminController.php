@@ -72,10 +72,12 @@ class EditionsAdminController {
 
   function add_actions() {
     \Jigsaw::add_column('pugpig_edition', 'Actions', function($pid) {
+      $epr = new EditionPackageReader($pid);
       $web_preview = $this->linkGenerator->edition_preview_url($pid);
       echo view('@AgreablePugpigPlugin/actions-column.twig', array(
         'web_preview_url' => $web_preview,
-        'packager_url' => $this->pugpigBridge->packager_url($pid)
+        'packager_url' => $this->pugpigBridge->packager_url($pid),
+        'package_size' => $epr->package_size()
       ))->getBody();
     });
   }
@@ -115,14 +117,12 @@ class EditionsAdminController {
       $post_time = date("Y\/n\/j\ H:i:s", $post_time);
       $last_update = $timeAgo->inWords($post_time);
 
-      $epr = new EditionPackageReader($pid);
 
 
       echo view('@AgreablePugpigPlugin/status-column.twig', array(
         'post_status' => $post_status,
         'custom' => $page_count ? $page_count : 0,
         'last_updated' => $last_update,
-        'package_size' => $epr->package_size()
       ))->getBody();
     });
   }
