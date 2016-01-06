@@ -16,8 +16,20 @@ class EditionsAdminController {
   public function init() {
     $this->remove_columns();
     $this->add_columns();
+    \add_action('do_meta_boxes', array($this, 'change_image_box'), 12, 3);
+    \add_filter( 'admin_post_thumbnail_html', array($this, 'custom_admin_post_thumbnail_html'), 12, 3);
     \add_filter('acf/fields/relationship/query', array($this, 'filter_flatplan_taxonomy'), 12, 3);
     \add_filter('wp_insert_post_data', array($this, 'check_for_tag_update'), 12, 3);
+  }
+
+  function change_image_box() {
+    remove_meta_box( 'postimagediv', 'pugpig_edition', 'side' );
+    add_meta_box('postimagediv', __('Edition Cover'), 'post_thumbnail_meta_box', 'pugpig_edition', 'side', 'default');
+  }
+
+  function custom_admin_post_thumbnail_html( $content ) {
+    $content = str_replace( __( 'Remove featured image' ), __( 'Remove Edition Cover' ), $content);
+    return $content = str_replace( __( 'Set featured image' ), __( 'Set Edition Cover' ), $content);
   }
 
   function check_for_tag_update($post_data, $post_array) {
