@@ -1,8 +1,13 @@
 <?php
 
 namespace AgreablePugpigPlugin\Hooks;
+
 use AgreablePugpigPlugin\Controllers\EditionsAdminController;
 use AgreablePugpigPlugin\Helper;
+
+use AgreablePugpigPLugin\Hooks\EditionHooks;
+
+
 
 class LoaderHelper {
 
@@ -27,3 +32,5 @@ class LoaderHelper {
 
 
 (new EditionsAdminController)->init();
+
+(new EditionHooks)->init();
