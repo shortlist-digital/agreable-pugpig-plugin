@@ -19,7 +19,6 @@ class EditionsAdminController {
     \add_action('do_meta_boxes', array($this, 'change_image_box'), 12, 3);
     \add_filter( 'admin_post_thumbnail_html', array($this, 'custom_admin_post_thumbnail_html'), 12, 3);
     \add_filter('acf/fields/relationship/query', array($this, 'filter_flatplan_taxonomy'), 12, 3);
-    \add_filter('wp_insert_post_data', array($this, 'check_for_tag_update'), 12, 3);
   }
 
   function change_image_box() {
@@ -30,68 +29,6 @@ class EditionsAdminController {
   function custom_admin_post_thumbnail_html( $content ) {
     $content = str_replace( __( 'Remove featured image' ), __( 'Remove Edition Cover' ), $content);
     return $content = str_replace( __( 'Set featured image' ), __( 'Set Edition Cover' ), $content);
-  }
-
-  function check_for_tag_update($post_data, $post_array) {
-    $post_id = $post_array['ID'];
-    $post = new TimberPost($post_id);
-    $tags = wp_get_post_tags($post->id);
-    $old_tag_id = $new_tag_id = false;
-    if (isset($tags[0]->term_id)) $old_tag_id = $tags[0]->term_id;
-    if (isset($post_array['tax_input']['post_tag'][0])) $new_tag_id = $post_array['tax_input']['post_tag'][0];
-    if ($old_tag_id === $new_tag_id) return $post_data;
-    if (($old_tag_id === false) && $new_tag_id) { $this->add_post_to_edition($post, $new_tag_id); return $post_data; }
-    if ($old_tag_id && ($new_tag_id === false)) { $this->remove_post_from_edition($post, $old_tag_id); return $post_data; }
-
-    if ($old_tag_id !== $new_tag_id) {
-      $this->remove_post_from_edition($post, $old_tag_id);
-      $this->add_post_to_edition($post, $new_tag_id);
-      return $post_data;
-    }
-
-    return $post_data;
-  }
-
-  function remove_post_from_edition($post, $tag_id) {
-    $post_id = $post->id;
-    $edition_number = $tag_id;
-    $args = array(
-      'post_type' => 'pugpig_edition',
-      'meta_query' => array(
-        'meta_key' => 'edition_number',
-        'meta_value' => $edition_number
-      )
-    );
-    $edition = Timber::get_post($args);
-    $linked_post_ids = $edition->flatplan; //Array
-    if (is_array($linked_post_ids)) {
-      if(($key = array_search($post_id, $linked_post_ids)) !== false) {
-        unset($linked_post_ids[$key]);
-      }
-      update_field('flatplan', $linked_post_ids, $edition->id);
-    }
-  }
-
-  function add_post_to_edition(TimberPost $post, $tag_id) {
-    $post_id = $post->id;
-    $edition_number = $tag_id;
-    $args = array(
-      'post_type' => 'pugpig_edition',
-      'meta_query' => array(
-        'meta_key' => 'edition_number',
-        'meta_value' => $edition_number
-      )
-    );
-    $edition = Timber::get_post($args);
-    $linked_post_ids = is_array($edition->flatplan) ? $edition->flatplan : array(); //Array
-    if (!in_array($post_id, $linked_post_ids)) {
-      array_push($linked_post_ids, $post_id);
-      update_field('flatplan', $linked_post_ids, $edition->id);
-    }
-  }
-
-  function edition_hooks(TimberPost $edition) {
-    if ($edition->post_type !== 'pugpig_edition') return;
   }
 
   function filter_flatplan_taxonomy($args, $field, $post_id) {

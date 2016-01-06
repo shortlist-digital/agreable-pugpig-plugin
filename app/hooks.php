@@ -5,7 +5,8 @@ namespace AgreablePugpigPlugin\Hooks;
 use AgreablePugpigPlugin\Controllers\EditionsAdminController;
 use AgreablePugpigPlugin\Helper;
 
-use AgreablePugpigPLugin\Hooks\EditionHooks;
+use AgreablePugpigPlugin\Hooks\EditionHooks;
+use AgreablePugpigPlugin\Hooks\PostHooks;
 
 
 
@@ -31,6 +32,8 @@ class LoaderHelper {
 (new LoaderHelper)->init();
 
 
+// Admin modifications
 (new EditionsAdminController)->init();
-
+// Hooks
 (new EditionHooks)->init();
+(new PostHooks)->init();
