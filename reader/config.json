@@ -2,7 +2,7 @@
   "displayToolbar": true,
   "displaySocial": true,
   "defaultDisplayModeIndex": 0,
-  "slideTransitionDuration": 500,
+  "slideTransitionDuration": 300,
   "authUrls": {
     "token": "",
     "verifyToken": ""
@@ -10,39 +10,33 @@
   "devices": [
     {
       "device": "iPad",
-      "orientation": "Landscape",
-      "width": 1024,
-      "height": 768
-    },
-    {
-      "device": "iPad",
       "orientation": "Portrait",
       "width": 768,
-      "height": 1024
+      "height": 980
     },
     {
-      "device": "iPhone 5",
-      "orientation": "Landscape",
-      "width": 568,
-      "height": 320
+      "device": "iPhone 6",
+      "orientation": "Potrait",
+      "width": 375,
+      "height": 623
+    },
+    {
+      "device": "iPhone 6 Plus",
+      "orientation": "Potrait",
+      "width": 540,
+      "height": 916
     },
     {
       "device": "iPhone 5",
       "orientation": "Portrait",
       "width": 320,
-      "height": 568
-    },
-    {
-      "device": "iPhone 3/4",
-      "orientation": "Landscape",
-      "width": 480,
-      "height": 320
+      "height": 524
     },
     {
       "device": "iPhone 3/4",
       "orientation": "Portrait",
       "width": 320,
-      "height": 480
+      "height": 436
     },
     {
       "device": "Kindle Fire",
