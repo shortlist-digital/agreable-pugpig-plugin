@@ -20,6 +20,11 @@ $router->get([
   'uses' => __NAMESPACE__ . '\Controllers\PostManifestController@index'
 ]);
 
+$router->get([
+  'as'   => 'pugpigIndex',
+  'uri'  => '/{year}/{month}/{day}/{slug}/pugpig_index.html',
+  'uses' => __NAMESPACE__ . '\Controllers\RelativeFilesController@index'
+]);
 
 $router->get([
   'as'   => 'opdsFeed',
