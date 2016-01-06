@@ -12,7 +12,7 @@ class RelativeFilesController {
     $post_object = get_page_by_path($slug ,OBJECT,'post');
     $post = get_permalink($post_object->ID);
     $file_html = file_get_contents($post);
-    $base_url = "http://local.newsstandapi.stylist.co.uk";
+    $base_url = WP_HOME;
     $new_string = str_replace($base_url, "../../../..", $file_html);
     return $new_string;
   }
