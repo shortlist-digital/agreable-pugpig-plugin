@@ -81,7 +81,7 @@ class PackagedFileAllocatorOriginal extends PackagedFileAllocator {
     $this->buckets['html'] = array_merge($this->buckets['html'], $html_files,  $manifest_files);
     $this->buckets['assets'] = array_merge($this->buckets['assets'], $manifest_contents);
   }
-    
+
   public function allocateAtomFileToBuckets($atom_files) {
     $this->buckets['html'] = array_merge($this->buckets['html'], $atom_files);
   }
@@ -130,7 +130,7 @@ class PackagedFileAllocatorBySection extends PackagedFileAllocator {
       $manifest_files,
       $html_files);
   }
-    
+
   public function allocateAtomFileToBuckets($atom_files) {
     $this->atomFiles = $atom_files;
   }
@@ -304,7 +304,7 @@ function _package_edition_package_size_raw($edition_tag)
       $size += $value;
     }
   }
-  
+
   return $size;
 }
 
@@ -339,7 +339,7 @@ function _package_edition_package_contents($base, $edition_tag, $timestamp = '*'
         break;
       }
     }
-    
+
     foreach ($parts as $part) {
       $name = (string)$part['name'];
       if ($is_original) {
@@ -395,7 +395,7 @@ function _package_edition_package_list_xml_using_files($base, $edition_tag, $url
 
   $url_root_without_domain = pugpig_strip_domain($url_root);
   foreach ($content as $key=>$values) {
-    if ($key === 'xml_timestamp' 
+    if ($key === 'xml_timestamp'
         || endsWith($key, '_size')
         || endsWith($key, '_is_cdn')) {
       continue;
@@ -480,10 +480,10 @@ function _package_edition_package_list_xml_part($package, $d, $url_root, $bucket
     if (!empty($cdn) && substr($cdn, -1)!='/' && substr($url_root, 0, 1)!='/') {
       $cdn_join = '/';
     }
-    
+
     $part = $d->createElement('part');
     $part->setAttribute('name', $bucket_name);
-    $part->setAttribute('src', $cdn . $cdn_join . $url_root . $bucket_zip);
+    $part->setAttribute('src', "/" . $cdn . $cdn_join . $url_root . $bucket_zip);
     $part->setAttribute('size', $file_size);
     $part->setAttribute('modified', gmdate(DATE_ATOM, $file_timestamp));
     $package->appendChild($part);
@@ -1031,10 +1031,10 @@ function _pugpig_package_edition_package($final_package_url, $content_xml_url, $
   $entries[$content_xml_hidden_path]  = $content_xml_hidden_save_path;
 
   $entries = _pugpig_package_download_batch("Public and Hidden ATOM Feeds", $entries, $debug, $concurrent);
-  
+
   // validate feed that doesn't have hidden entries
   _pugpig_validate_saved_feed($entries[$content_xml_url], $content_xml_url, $format_failures);
-  
+
   // validate feed that has hidden entries
   $feed_contents_with_hidden = _pugpig_validate_saved_feed($content_xml_hidden_save_path, $content_xml_hidden_path, $format_failures);
 
@@ -1080,7 +1080,7 @@ function _pugpig_package_edition_package($final_package_url, $content_xml_url, $
   // Process the manifests - these are relative to the ATOM content XML
   $entries = _pugpig_relative_urls_to_download_array($relative_path, $atom_ret['manifest_urls'], $content_xml_url, $tmp_path);
   $entries = _pugpig_package_download_batch("Manifests", $entries, $debug, $concurrent);
-  
+
   // Getting the list of static files from the manifests
   $manifest_entries = array();
   $format_failures = array();
@@ -1098,7 +1098,7 @@ function _pugpig_package_edition_package($final_package_url, $content_xml_url, $
       //print_r("Read: " . $sfile . " - " . filesize($sfile) . " bytes<br />");
       //
         $this_manifest_files = _pugpig_package_get_asset_urls_from_manifest($fcontents, array(), $url);
-        
+
         $this_manifest_files_src_dest = _pugpig_relative_urls_to_download_array($relative_path, $this_manifest_files, $content_xml_url, $tmp_path);
         //$this_manifest_files_src_dest = _pugpig_package_zip_paths($this_manifest_files_src_dest, $tmp_path, $package_url_base, $relative_path, $debug);
 
@@ -1133,11 +1133,11 @@ function _pugpig_package_edition_package($final_package_url, $content_xml_url, $
     _pugpig_package_show_images_in_package($entries);
   } else {
     $entries = _pugpig_package_download_batch("Static Files", $entries, $debug, $concurrent);
-    
+
     // Process the HTML files
     $entries = _pugpig_relative_urls_to_download_array($relative_path, $atom_ret['html_urls'], $content_xml_url, $tmp_path);
     $entries = _pugpig_package_download_batch("HTML Pages", $entries, $debug, $concurrent);
-    
+
     if (!$test_mode) {
       print_r("<h2>Packaging files</h2>");
 

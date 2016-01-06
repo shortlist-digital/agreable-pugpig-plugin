@@ -22,7 +22,9 @@ class EditionsFeedController {
     foreach($files as $file) {
       $name = pathinfo($file, PATHINFO_FILENAME);
       if (strpos(strtolower($name), strtolower($edition->edition_key))) {
-        $headers['Content-Type'] = "application/atom+xml";
+        $headers['Content-Disposition'] = "inline";
+        $headers['Content-Type'] = "application/pugpigpkg+xml";
+        $headers['X-Pugpig-Status'] = "published";
         return response(file_get_contents($file), 200, $headers);
       }
     }

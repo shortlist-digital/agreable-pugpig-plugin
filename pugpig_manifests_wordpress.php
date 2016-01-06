@@ -482,13 +482,13 @@ function pugpig_get_page($id, $edition_id, $content_filter=null)
   // TODO: Allow post specific values in future
   // Get canonical URL for sharing (e.g. Twitter, Facebook)
   $sharing_link = apply_filters( 'pugpig_page_sharing_link', pugpig_get_canonical_url($post), $post);
-  
+
   $status = $post->post_status;
   // We want everything except draft, pending and trashed posts in an edition
   if ($status != 'draft' && $status != 'trash' && $status != 'pending') {
     $status = 'published'; // We expect the word 'published'
   }
-  
+
   $stop_id_prefixes = false;
   $page = array(
     'id' => pugpig_get_atom_post_id($post, $stop_id_prefixes),

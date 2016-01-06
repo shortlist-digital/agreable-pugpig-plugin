@@ -10,7 +10,7 @@ $router->get([
 
 $router->get([
   'as'   => 'editionFeed',
-  'uri'  => '/editionfeed/{id}/pugpig_package_list.manifest',
+  'uri'  => '/editionfeed/{id}/package.xml',
   'uses' => __NAMESPACE__ . '\Controllers\EditionsFeedController@package_list'
 ]);
 
