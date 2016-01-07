@@ -1,39 +1,22 @@
-<?php
-
-namespace AgreablePugpigPlugin\Hooks;
-
+<?php namespace AgreablePugpigPlugin\Hooks;
+// Admin Mods
 use AgreablePugpigPlugin\Controllers\EditionsAdminController;
-use AgreablePugpigPlugin\Helper;
-
+// Helpers
+use AgreablePugpigPlugin\Services\LoaderHelper;
+// Hooks
 use AgreablePugpigPlugin\Hooks\EditionHooks;
 use AgreablePugpigPlugin\Hooks\PostHooks;
-
-
-
-class LoaderHelper {
-
-  public function init() {
-    \add_filter('timber/loader/paths', array($this, 'add_paths'), 10);
-  }
-
-  function add_paths($paths){
-    // Get views specified in herbert.
-    $namespaces = Helper::get('views');
-    foreach ($namespaces as $namespace => $views){
-      foreach ((array) $views as $view){
-        // Add to timber $paths array.
-        array_unshift($paths, $view);
-      }
-    }
-    return $paths;
-  }
-}
-
-(new LoaderHelper)->init();
-
-
-// Admin modifications
-(new EditionsAdminController)->init();
+// Post Types
+use AgreablePugpigPlugin\CustomPostTypes\EditionPostType;
+use AgreablePugpigPlugin\CustomPostTypes\BundlePostType;
+// Register Post Types
+(new EditionPostType)->register();
+(new BundlePostType)->register();
 // Hooks
 (new EditionHooks)->init();
 (new PostHooks)->init();
+
+// Register twig files
+(new LoaderHelper)->init();
+// Admin modifications
+(new EditionsAdminController)->init();

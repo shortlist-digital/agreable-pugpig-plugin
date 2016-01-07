@@ -1,6 +1,6 @@
 <?php namespace AgreablePugpigPlugin\CustomPostTypes;
 
-class Editions {
+class EditionPostType {
 
   public function register() {
     \add_action('init', array($this, 'editions_post_type'), 50);
@@ -18,6 +18,9 @@ class Editions {
       'search_items' => __('Search Editions'),
       'not_found' =>  __('Nothing found'),
       'not_found_in_trash' => __('Nothing found in Trash'),
+      'set_featured_image'    => __( 'Set Edition Cover', 'text_domain' ),
+      'remove_featured_image' => __( 'Remove Edition Cover', 'text_domain' ),
+      'use_featured_image'    => __( 'Use as Edition Cover', 'text_domain' ),
       'parent_item_colon' => ''
     );
 
@@ -32,6 +35,7 @@ class Editions {
       'capability_type' => 'post',
       'hierarchical' => false,
       'menu_position' => null,
+      'menu_icon' => 'dashicons-book-alt',
       'supports' => array('title', 'excerpt','thumbnail') // Custom Fields for debug 'custom-fields'
       );
 
