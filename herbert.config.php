@@ -14,6 +14,8 @@ return [
     'requires' => [
         __DIR__ . '/app/CustomPostTypes/BundlePostType.php',
         __DIR__ . '/app/CustomPostTypes/EditionPostType.php',
+        __DIR__ . '/app/CustomFields/edition.php',
+        __DIR__ . '/app/CustomFields/bundle.php',
         __DIR__ . '/app/hooks.php'
     ],
 
