@@ -21,7 +21,9 @@ class BundleHooks {
       $post = new TimberPost($post->ID);
       $html_file = $post->ad_bundle_html_file;
       $attachment_id = $post->ad_bundle_zip_file;
-      wp_redirect($this->get_unzip_url($attachment_id, $html_file));
+      $context = Timber::get_context();
+      $context['html_file'] = $this->get_unzip_url($attachment_id, $html_file);
+      echo view('@AgreablePugpigPlugin/bundle.twig', $context)->getBody();
     } else {
       return $template;
     }

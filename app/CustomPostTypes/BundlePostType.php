@@ -55,7 +55,7 @@ class BundlePostType {
       'has_archive'           => true,
       'exclude_from_search'   => false,
       'publicly_queryable'    => true,
-      'capability_type'       => 'page',
+      'capability_type'       => 'post',
       'menu_icon'             => 'dashicons-welcome-add-page'
     );
     register_post_type( 'pugpig_ad_bundle', $args );
