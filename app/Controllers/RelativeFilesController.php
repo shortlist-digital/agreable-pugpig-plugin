@@ -23,5 +23,14 @@ class RelativeFilesController {
     return $this->respond->success($new_string, $post->post_modified_gmt);
   }
 
+  public function bundle($slug) {
+    $post_object = get_page_by_path($slug ,OBJECT,'pugpig_ad_bundle');
+    $post = new TimberPost($post_object->ID);
+    $path = get_post_meta($post->id, 'ad_bundle_directory')[0];
+    $index_file = $path.$post->ad_bundle_html_file;
+    $file_html = file_get_contents($index_file);
+    return $this->respond->success($file_html, $post->post_modified_gmt);
+  }
+
 
 }

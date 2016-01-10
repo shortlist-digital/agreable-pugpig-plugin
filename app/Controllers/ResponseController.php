@@ -9,6 +9,12 @@ class ResponseController {
     return response($content, 200, $headers);
   }
 
+  public function html($success, $last_modified) {
+    $headers = $this->build_success_headers($last_modified);
+    $headers['Content-Type'] = "text/html; charset=UTF-8";
+    return response($content, 200, $headers);
+  }
+
   public function manifest($content, $last_modified) {
     $headers = $this->build_success_headers($last_modified);
     $headers['Content-Type'] = "text/cache-manifest;";

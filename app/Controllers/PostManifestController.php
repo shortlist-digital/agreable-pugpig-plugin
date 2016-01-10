@@ -5,16 +5,22 @@ use AgreablePugpigPlugin\Helper;
 use AgreablePugpigPlugin\Controllers\LinkGeneratorController;
 use AgreablePugpigPlugin\Controllers\ResponseController;
 
+use TimberPost;
+
 class PostManifestController {
 
   function __construct() {
     $this->respond = new ResponseController;
+    $this->base_url = get_bloginfo('url');
+  }
+
+  public function set_post(TimberPost $post) {
+    $this->post = $post;
   }
 
   public function index($slug) {
     $post_object = get_page_by_path($slug ,OBJECT,'post');
     $this->post = new \TimberPost($post_object);
-    $this->base_url = get_bloginfo('url');
     $this->permalink = get_permalink($post_object);
     $cachebust = time();
     $this->raw_html = file_get_contents($this->permalink);
@@ -52,6 +58,8 @@ class PostManifestController {
 
   public function extension_whitelist() {
     return array(
+      'html',
+      'html',
       'js',
       'css',
       'svg',

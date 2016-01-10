@@ -21,7 +21,7 @@ class Posthooks {
 
   function check(TimberPost $post) {
     if (wp_is_post_revision($post->ID)) {return true;}
-    if ($post->post_type !== 'post') {return true;}
+    if (!in_array($post->post_type, array('post', 'pugpig_ad_bundle'))) {return true;}
     return false;
   }
 
@@ -68,6 +68,7 @@ class Posthooks {
   }
 
   function add_post_to_edition(TimberPost $post, $tag_id) {
+    if ($post->status !== 'publish') { return true; }
     $post_id = $post->id;
     $edition_number = $tag_id;
     $args = array(

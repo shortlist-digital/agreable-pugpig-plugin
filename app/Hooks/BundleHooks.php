@@ -53,6 +53,7 @@ class BundleHooks {
     $zip_file->url = wp_get_attachment_url($id);
     $zip_file->html_file = $post->ad_bundle_html_file;
     $directory = $this->unzip($post, $zip_file);
+    add_post_meta($post->id, 'ad_bundle_directory', $directory);
     if (empty($post->ad_bundle_html_file)) {
       $file_name = $this->get_html_file($directory, array('htm', 'html'));
       update_field('ad_bundle_html_file', $file_name, $post->id);
