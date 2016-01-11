@@ -231,7 +231,7 @@ function _pugpig_subs_edition_credentials_response($product_id, $secret, $entitl
     $writer->writeAttribute('status', "notentitled");
     if (!empty($error_message)) $writer->writeAttribute('message', $error_message);
     $writer->endElement();
-    
+
     _pugpig_subs_write_comments($writer, $comments);
     foreach ($extras as $name => $value) $writer->writeElement($name, $value);
     $writer->endElement();
